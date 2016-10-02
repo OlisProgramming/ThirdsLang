@@ -10,12 +10,30 @@ public class Statement {
 		PRINT
 	}
 	
+	public enum CPPDependency {
+		IOSTREAM;
+		
+		public String cppString() {
+			switch (this) {
+			case IOSTREAM:
+				return "#include <iostream>";
+			default:
+				System.err.println("Invalid C++ Dependency");
+				new Exception().printStackTrace();
+				System.exit(-1);
+				return "";
+			}
+		}
+	}
+	
 	private StatementType type;
 	private ArrayList<Token> tokens;
+	private CPPDependency[] dependencies;
 	
-	public Statement(StatementType type, ArrayList<Token> tokens) {
+	public Statement(StatementType type, ArrayList<Token> tokens, CPPDependency... dependencies) {
 		setType(type);
 		setTokens(tokens);
+		setDependencies(dependencies);
 	}
 	
 	public String cppString() {
@@ -36,5 +54,13 @@ public class Statement {
 
 	public void setTokens(ArrayList<Token> tokens) {
 		this.tokens = tokens;
+	}
+	
+	public CPPDependency[] getDependencies() {
+		return dependencies;
+	}
+	
+	public void setDependencies(CPPDependency[] dependencies) {
+		this.dependencies = dependencies;
 	}
 }

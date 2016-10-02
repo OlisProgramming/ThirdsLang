@@ -33,6 +33,7 @@ public class Tokeniser {
 					break;
 				default:
 					System.err.println("Invalid token: '" + currentToken + "'");
+					new Exception().printStackTrace();
 					System.exit(-1);
 				}
 				currentToken = "";
