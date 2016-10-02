@@ -1,6 +1,7 @@
 package com.thirds.lang.compile;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import com.thirds.lang.parse.Parser;
 import com.thirds.lang.parse.Statement;
@@ -16,7 +17,7 @@ public class Compiler {
 		
 		ArrayList<Token> tokens = Tokeniser.tokenise(content);
 		ArrayList<Statement> statements = Parser.parse(tokens);
-		ArrayList<CPPDependency> dependencies = new ArrayList<>();
+		HashSet<CPPDependency> dependencies = new HashSet<>();
 		
 		String output = "";
 		
