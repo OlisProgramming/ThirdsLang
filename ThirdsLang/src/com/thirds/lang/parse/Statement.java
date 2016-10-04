@@ -3,6 +3,7 @@ package com.thirds.lang.parse;
 import java.util.ArrayList;
 
 import com.thirds.lang.token.Token;
+import com.thirds.lang.token.Token.TokenType;
 
 public class Statement {
 
@@ -30,10 +31,47 @@ public class Statement {
 	private ArrayList<Token> tokens;
 	private CPPDependency[] dependencies;
 	
-	public Statement(StatementType type, ArrayList<Token> tokens, CPPDependency... dependencies) {
-		setType(type);
+	public Statement(ArrayList<Token> tokens) {
+		//tokens.remove(tokens.size() - 1);
 		setTokens(tokens);
-		setDependencies(dependencies);
+		parseStatement();
+	}
+	
+	private void parseStatement() {
+		
+		if (matchTokens(TokenType.PRINT, TokenType.SEMICOLON)) {
+			setType(StatementType.PRINT);
+			setDependencies(CPPDependency.IOSTREAM);
+			return;
+		}
+		
+		System.err.print("Invalid statement:");
+		for (Token t : tokens)
+			System.err.print(" " + t.getType().toString());
+		System.err.println();
+		
+		new Exception().printStackTrace();
+		System.exit(-1);
+	}
+	
+	/**
+	 * Is this statement comprised of this set of tokens?
+	 */
+	private boolean matchTokens(TokenType... types) {
+		
+		if (tokens.size() != types.length) {
+			return false;
+		}
+		
+		for (int i = 0; i < types.length; i++) {
+			if (tokens.get(i).getType() != types[i]) {
+				// If the statement's token type does not match the provided type
+				return false;
+			}
+		}
+		
+		// If the code reaches here, all matches were successful
+		return true;
 	}
 	
 	public String cppString() {
@@ -60,7 +98,7 @@ public class Statement {
 		return dependencies;
 	}
 	
-	public void setDependencies(CPPDependency[] dependencies) {
+	public void setDependencies(CPPDependency... dependencies) {
 		this.dependencies = dependencies;
 	}
 }

@@ -6,7 +6,7 @@ import com.thirds.lang.token.Token.TokenType;
 
 public class Tokeniser {
 
-	public static char[] DELIMITERS = { ' ', '\t', '\n', '\0' };
+	public static char[] DELIMITERS = { ' ', '\t', '\n', ';', '\0' };
 	
 	public static ArrayList<Token> tokenise(String code) {
 		
@@ -39,6 +39,11 @@ public class Tokeniser {
 				currentToken = "";
 				
 				// Add delimiter token
+				
+				switch (c) {
+				case ';':
+					tokens.add(new Token(";", TokenType.SEMICOLON));
+				}
 			}
 		}
 		

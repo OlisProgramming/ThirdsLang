@@ -10,9 +10,9 @@ public class ThirdsLang {
 	public static void main(String[] args) throws IOException {
 		
 		String content = IO.readFile(MAIN_FILE_NAME);
-		System.out.println(content);
-		
 		String cppCode = Compiler.compile(content);
 		IO.writeFile("main.cpp", cppCode);
+		
+		System.out.println("Compilation completed successfully!");
 	}
 }

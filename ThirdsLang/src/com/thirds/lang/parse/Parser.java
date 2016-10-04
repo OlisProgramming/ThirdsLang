@@ -2,9 +2,8 @@ package com.thirds.lang.parse;
 
 import java.util.ArrayList;
 
-import com.thirds.lang.parse.Statement.CPPDependency;
-import com.thirds.lang.parse.Statement.StatementType;
 import com.thirds.lang.token.Token;
+import com.thirds.lang.token.Token.TokenType;
 
 public class Parser {
 
@@ -12,16 +11,21 @@ public class Parser {
 		
 		ArrayList<Statement> statements = new ArrayList<>();
 		
+		ArrayList<Token> currentTokens = new ArrayList<>();
+		
 		for (Token t : tokens) {
-			switch (t.getType()) {
-			case PRINT:
-				statements.add(new Statement(StatementType.PRINT, tokens, CPPDependency.IOSTREAM));
-				break;
-			default:
-				System.err.println("Unrecognised token type");
-				new Exception().printStackTrace();
-				System.exit(-1);
+			currentTokens.add(t);
+			
+			if (t.getType() == TokenType.SEMICOLON) {
+				statements.add(new Statement(currentTokens));
+				currentTokens = new ArrayList<>();
 			}
+		}
+		
+		if (!currentTokens.isEmpty()) {
+			System.err.println("Unexpected EOF: maybe add a semicolon at the end of the file");
+			new Exception().printStackTrace();
+			System.exit(-1);
 		}
 		
 		return statements;

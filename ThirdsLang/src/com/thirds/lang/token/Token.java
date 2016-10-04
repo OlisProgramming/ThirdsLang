@@ -3,6 +3,7 @@ package com.thirds.lang.token;
 public class Token {
 	
 	public enum TokenType {
+		SEMICOLON,
 		PRINT
 	}
 	
