@@ -13,9 +13,9 @@ public class Compiler {
 
 	public static String TAB = "    ";  // Replace with '\t' if desired
 	
-	public static String compile(String content) {
+	public static String compile(String content, String fname) {
 		
-		ArrayList<Token> tokens = Tokeniser.tokenise(content);
+		ArrayList<Token> tokens = Tokeniser.tokenise(content, fname);
 		ArrayList<Statement> statements = Parser.parse(tokens);
 		HashSet<CPPDependency> dependencies = new HashSet<>();
 		

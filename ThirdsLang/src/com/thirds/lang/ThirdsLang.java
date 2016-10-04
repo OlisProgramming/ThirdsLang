@@ -1,6 +1,7 @@
 package com.thirds.lang;
 
 import java.io.IOException;
+
 import com.thirds.lang.compile.Compiler;
 
 public class ThirdsLang {
@@ -10,7 +11,7 @@ public class ThirdsLang {
 	public static void main(String[] args) throws IOException {
 		
 		String content = IO.readFile(MAIN_FILE_NAME);
-		String cppCode = Compiler.compile(content);
+		String cppCode = Compiler.compile(content, MAIN_FILE_NAME);
 		IO.writeFile("main.cpp", cppCode);
 		
 		Messages.info("Compilation completed successfully!");

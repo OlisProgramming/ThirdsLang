@@ -31,7 +31,6 @@ public class Statement {
 	private CPPDependency[] dependencies;
 	
 	public Statement(ArrayList<Token> tokens) {
-		//tokens.remove(tokens.size() - 1);
 		setTokens(tokens);
 		parseStatement();
 	}
@@ -44,7 +43,10 @@ public class Statement {
 			return;
 		}
 		
-		String errorMsg = "Invalid statement:";
+		String errorMsg = "Invalid statement at line " +
+				Integer.toString(tokens.get(0).getLine()) + ", column " +
+				Integer.toString(tokens.get(0).getColumn()) + " of file " +
+				tokens.get(0).getFname() + ":";
 		for (Token t : tokens)
 			errorMsg += " " + t.getType().toString();
 		

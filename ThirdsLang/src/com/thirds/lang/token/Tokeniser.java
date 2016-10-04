@@ -9,14 +9,21 @@ public class Tokeniser {
 
 	public static char[] DELIMITERS = { ' ', '\t', '\n', ';', '\0' };
 	
-	public static ArrayList<Token> tokenise(String code) {
+	public static ArrayList<Token> tokenise(String code, String fname) {
 		
 		ArrayList<Token> tokens = new ArrayList<>();
 		
 		String currentToken = "";
 		
 		code += '\0';  // EOF marker
-		for (char c : code.toCharArray()) {
+		char[] codeChars = code.toCharArray();
+		
+		int line = 1;
+		int column = 1;
+		
+		for (int i = 0; i < codeChars.length; i++) {
+			
+			char c = codeChars[i];
 			
 			boolean cIsDelimiter = false;
 			for (char delimiter : DELIMITERS)
@@ -30,10 +37,13 @@ public class Tokeniser {
 				case "":
 					break;
 				case "print":
-					tokens.add(new Token(currentToken, TokenType.PRINT));
+					tokens.add(new Token(currentToken, TokenType.PRINT, line, column, fname));
 					break;
 				default:
-					Messages.error("Invalid token: '" + currentToken + "'");
+					Messages.error("Invalid token at line " +
+							Integer.toString(line) + ", column " +
+							Integer.toString(column) + " of file " +
+							fname + ": " + currentToken);
 				}
 				currentToken = "";
 				
@@ -41,8 +51,15 @@ public class Tokeniser {
 				
 				switch (c) {
 				case ';':
-					tokens.add(new Token(";", TokenType.SEMICOLON));
+					tokens.add(new Token(";", TokenType.SEMICOLON, line, column, fname));
 				}
+			}
+			
+			if (c == '\n') {
+				line++;
+				column = 1;
+			} else {
+				column++;
 			}
 		}
 		
