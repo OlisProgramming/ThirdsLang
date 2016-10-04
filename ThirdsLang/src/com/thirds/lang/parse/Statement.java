@@ -2,6 +2,7 @@ package com.thirds.lang.parse;
 
 import java.util.ArrayList;
 
+import com.thirds.lang.Messages;
 import com.thirds.lang.token.Token;
 import com.thirds.lang.token.Token.TokenType;
 
@@ -19,9 +20,7 @@ public class Statement {
 			case IOSTREAM:
 				return "#include <iostream>";
 			default:
-				System.err.println("Invalid C++ Dependency");
-				new Exception().printStackTrace();
-				System.exit(-1);
+				Messages.error("Invalid C++ Dependency: " + name());
 				return "";
 			}
 		}
@@ -45,13 +44,11 @@ public class Statement {
 			return;
 		}
 		
-		System.err.print("Invalid statement:");
+		String errorMsg = "Invalid statement:";
 		for (Token t : tokens)
-			System.err.print(" " + t.getType().toString());
-		System.err.println();
+			errorMsg += " " + t.getType().toString();
 		
-		new Exception().printStackTrace();
-		System.exit(-1);
+		Messages.error(errorMsg);
 	}
 	
 	/**

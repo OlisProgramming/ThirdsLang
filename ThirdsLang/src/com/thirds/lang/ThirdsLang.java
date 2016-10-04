@@ -13,6 +13,6 @@ public class ThirdsLang {
 		String cppCode = Compiler.compile(content);
 		IO.writeFile("main.cpp", cppCode);
 		
-		System.out.println("Compilation completed successfully!");
+		Messages.info("Compilation completed successfully!");
 	}
 }

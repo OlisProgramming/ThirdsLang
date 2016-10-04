@@ -2,6 +2,7 @@ package com.thirds.lang.token;
 
 import java.util.ArrayList;
 
+import com.thirds.lang.Messages;
 import com.thirds.lang.token.Token.TokenType;
 
 public class Tokeniser {
@@ -32,9 +33,7 @@ public class Tokeniser {
 					tokens.add(new Token(currentToken, TokenType.PRINT));
 					break;
 				default:
-					System.err.println("Invalid token: '" + currentToken + "'");
-					new Exception().printStackTrace();
-					System.exit(-1);
+					Messages.error("Invalid token: '" + currentToken + "'");
 				}
 				currentToken = "";
 				

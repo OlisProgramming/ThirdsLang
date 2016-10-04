@@ -2,6 +2,7 @@ package com.thirds.lang.parse;
 
 import java.util.ArrayList;
 
+import com.thirds.lang.Messages;
 import com.thirds.lang.token.Token;
 import com.thirds.lang.token.Token.TokenType;
 
@@ -23,9 +24,7 @@ public class Parser {
 		}
 		
 		if (!currentTokens.isEmpty()) {
-			System.err.println("Unexpected EOF: maybe add a semicolon at the end of the file");
-			new Exception().printStackTrace();
-			System.exit(-1);
+			Messages.error("Unexpected EOF: maybe add a semicolon at the end of the file");
 		}
 		
 		return statements;
