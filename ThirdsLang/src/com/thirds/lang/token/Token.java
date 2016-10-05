@@ -3,8 +3,8 @@ package com.thirds.lang.token;
 public class Token {
 	
 	public enum TokenType {
-		SEMICOLON,
-		PRINT
+		SEMICOLON, PARENTH_LEFT, PARENTH_RIGHT,
+		IDENTIFIER
 	}
 	
 	private String contents;

@@ -37,9 +37,17 @@ public class Statement {
 	
 	private void parseStatement() {
 		
-		if (matchTokens(TokenType.PRINT, TokenType.SEMICOLON)) {
-			setType(StatementType.PRINT);
-			setDependencies(CPPDependency.IOSTREAM);
+		if (matchTokens(TokenType.IDENTIFIER, TokenType.PARENTH_LEFT, TokenType.PARENTH_RIGHT, TokenType.SEMICOLON)) {
+			switch (tokens.get(0).getContents()) {
+			case "print":
+				setType(StatementType.PRINT);
+				setDependencies(CPPDependency.IOSTREAM);
+				return;
+			}
+			Messages.error("Undeclared identifier at line " +
+				Integer.toString(tokens.get(0).getLine()) + ", column " +
+				Integer.toString(tokens.get(0).getColumn()) + " of file " +
+				tokens.get(0).getFname() + ": " + tokens.get(0).getContents());
 			return;
 		}
 		

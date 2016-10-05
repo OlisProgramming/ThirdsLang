@@ -1,13 +1,19 @@
 package com.thirds.lang.token;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import com.thirds.lang.Messages;
 import com.thirds.lang.token.Token.TokenType;
 
 public class Tokeniser {
 
-	public static char[] DELIMITERS = { ' ', '\t', '\n', ';', '\0' };
+	public static final char[] DELIMITERS = { ' ', '\t', '\n', ';', '(', ')', '\0' };
+	/**
+	 * Identifiers must contain only alphanumeric characters and underscores,
+	 * and the first digit must NOT be a digit.
+	 */
+	public static final Pattern identifierPattern = Pattern.compile("[a-zA-Z_][a-zA-Z0-9_]*");
 	
 	public static ArrayList<Token> tokenise(String code, String fname) {
 		
@@ -33,13 +39,12 @@ public class Tokeniser {
 			if (!cIsDelimiter) {
 				currentToken += c;
 			} else {
-				switch (currentToken) {
-				case "":
-					break;
-				case "print":
-					tokens.add(new Token(currentToken, TokenType.PRINT, line, column, fname));
-					break;
-				default:
+				if (currentToken == "") {
+					// Do nothing
+				} else if (identifierPattern.matcher(currentToken).matches()) {
+					// Token is an identifier
+					tokens.add(new Token(currentToken, TokenType.IDENTIFIER, line, column, fname));
+				} else {
 					Messages.error("Invalid token at line " +
 							Integer.toString(line) + ", column " +
 							Integer.toString(column) + " of file " +
@@ -52,6 +57,13 @@ public class Tokeniser {
 				switch (c) {
 				case ';':
 					tokens.add(new Token(";", TokenType.SEMICOLON, line, column, fname));
+					break;
+				case '(':
+					tokens.add(new Token(";", TokenType.PARENTH_LEFT, line, column, fname));
+					break;
+				case ')':
+					tokens.add(new Token(";", TokenType.PARENTH_RIGHT, line, column, fname));
+					break;
 				}
 			}
 			
